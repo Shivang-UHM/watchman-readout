@@ -327,14 +327,12 @@ void PStrigger(int actionID){
 //	usleep(1);
 	//Send a pulse to PL side
 	if(actionID == ENABLE){
-	Xil_Out32(XPAR_CONTROL_MULTIPLE_TC_0_S00_AXI_BASEADDR, (u32) 10);
-	usleep(1);
-	Xil_Out32(XPAR_CONTROL_MULTIPLE_TC_0_S00_AXI_BASEADDR, (u32) 0);
-	}
-	else if (actionID == INIT){
+		Xil_Out32(XPAR_CONTROL_MULTIPLE_TC_0_S00_AXI_BASEADDR, (u32) 10);
+		usleep(1);
+		Xil_Out32(XPAR_CONTROL_MULTIPLE_TC_0_S00_AXI_BASEADDR, (u32) 0);
 
+	} else if (actionID == INIT){
 		 Xil_Out32(XPAR_CONTROL_MULTIPLE_TC_0_S00_AXI_BASEADDR, (u32) 0);
-
 	}
 	//usleep(50);
 }

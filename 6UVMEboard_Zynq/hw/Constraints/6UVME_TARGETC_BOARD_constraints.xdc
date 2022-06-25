@@ -400,61 +400,6 @@ set_property MARK_DEBUG true [get_nets {HMBcal_2TCsBD_i/xlconcat_2_dout[1]}]
 set_property MARK_DEBUG true [get_nets {HMBcal_2TCsBD_i/xlconcat_2_dout[2]}]
 
 
-create_debug_core u_ila_0 ila
-set_property ALL_PROBE_SAME_MU true [get_debug_cores u_ila_0]
-set_property ALL_PROBE_SAME_MU_CNT 4 [get_debug_cores u_ila_0]
-set_property C_ADV_TRIGGER true [get_debug_cores u_ila_0]
-set_property C_DATA_DEPTH 4096 [get_debug_cores u_ila_0]
-set_property C_EN_STRG_QUAL true [get_debug_cores u_ila_0]
-set_property C_INPUT_PIPE_STAGES 0 [get_debug_cores u_ila_0]
-set_property C_TRIGIN_EN false [get_debug_cores u_ila_0]
-set_property C_TRIGOUT_EN false [get_debug_cores u_ila_0]
-set_property port_width 1 [get_debug_ports u_ila_0/clk]
-connect_debug_port u_ila_0/clk [get_nets [list HMBcal_2TCsBD_i/processing_system7_0/inst/FCLK_CLK0]]
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe0]
-set_property port_width 10 [get_debug_ports u_ila_0/probe0]
 connect_debug_port u_ila_0/probe0 [get_nets [list {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/FIFOMANAGER/cnt_fifo[0]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/FIFOMANAGER/cnt_fifo[1]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/FIFOMANAGER/cnt_fifo[2]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/FIFOMANAGER/cnt_fifo[3]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/FIFOMANAGER/cnt_fifo[4]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/FIFOMANAGER/cnt_fifo[5]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/FIFOMANAGER/cnt_fifo[6]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/FIFOMANAGER/cnt_fifo[7]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/FIFOMANAGER/cnt_fifo[8]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/FIFOMANAGER/cnt_fifo[9]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe1]
-set_property port_width 4 [get_debug_ports u_ila_0/probe1]
-connect_debug_port u_ila_0/probe1 [get_nets [list {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/FIFOMANAGER/rd_st_num[0]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/FIFOMANAGER/rd_st_num[1]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/FIFOMANAGER/rd_st_num[2]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/FIFOMANAGER/rd_st_num[3]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe2]
-set_property port_width 32 [get_debug_ports u_ila_0/probe2]
-connect_debug_port u_ila_0/probe2 [get_nets [list {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[0]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[1]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[2]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[3]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[4]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[5]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[6]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[7]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[8]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[9]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[10]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[11]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[12]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[13]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[14]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[15]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[16]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[17]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[18]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[19]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[20]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[21]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[22]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[23]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[24]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[25]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[26]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[27]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[28]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[29]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[30]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/DO_A_B[31]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe3]
-set_property port_width 12 [get_debug_ports u_ila_0/probe3]
 connect_debug_port u_ila_0/probe3 [get_nets [list {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/A_CH0_intl[0]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/A_CH0_intl[1]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/A_CH0_intl[2]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/A_CH0_intl[3]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/A_CH0_intl[4]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/A_CH0_intl[5]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/A_CH0_intl[6]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/A_CH0_intl[7]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/A_CH0_intl[8]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/A_CH0_intl[9]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/A_CH0_intl[10]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/A_CH0_intl[11]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe4]
-set_property port_width 32 [get_debug_ports u_ila_0/probe4]
-connect_debug_port u_ila_0/probe4 [get_nets [list {HMBcal_2TCsBD_i/xlconcat_3_dout[0]} {HMBcal_2TCsBD_i/xlconcat_3_dout[1]} {HMBcal_2TCsBD_i/xlconcat_3_dout[2]} {HMBcal_2TCsBD_i/xlconcat_3_dout[3]} {HMBcal_2TCsBD_i/xlconcat_3_dout[4]} {HMBcal_2TCsBD_i/xlconcat_3_dout[5]} {HMBcal_2TCsBD_i/xlconcat_3_dout[6]} {HMBcal_2TCsBD_i/xlconcat_3_dout[7]} {HMBcal_2TCsBD_i/xlconcat_3_dout[8]} {HMBcal_2TCsBD_i/xlconcat_3_dout[9]} {HMBcal_2TCsBD_i/xlconcat_3_dout[10]} {HMBcal_2TCsBD_i/xlconcat_3_dout[11]} {HMBcal_2TCsBD_i/xlconcat_3_dout[12]} {HMBcal_2TCsBD_i/xlconcat_3_dout[13]} {HMBcal_2TCsBD_i/xlconcat_3_dout[14]} {HMBcal_2TCsBD_i/xlconcat_3_dout[15]} {HMBcal_2TCsBD_i/xlconcat_3_dout[16]} {HMBcal_2TCsBD_i/xlconcat_3_dout[17]} {HMBcal_2TCsBD_i/xlconcat_3_dout[18]} {HMBcal_2TCsBD_i/xlconcat_3_dout[19]} {HMBcal_2TCsBD_i/xlconcat_3_dout[20]} {HMBcal_2TCsBD_i/xlconcat_3_dout[21]} {HMBcal_2TCsBD_i/xlconcat_3_dout[22]} {HMBcal_2TCsBD_i/xlconcat_3_dout[23]} {HMBcal_2TCsBD_i/xlconcat_3_dout[24]} {HMBcal_2TCsBD_i/xlconcat_3_dout[25]} {HMBcal_2TCsBD_i/xlconcat_3_dout[26]} {HMBcal_2TCsBD_i/xlconcat_3_dout[27]} {HMBcal_2TCsBD_i/xlconcat_3_dout[28]} {HMBcal_2TCsBD_i/xlconcat_3_dout[29]} {HMBcal_2TCsBD_i/xlconcat_3_dout[30]} {HMBcal_2TCsBD_i/xlconcat_3_dout[31]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe5]
-set_property port_width 16 [get_debug_ports u_ila_0/probe5]
-connect_debug_port u_ila_0/probe5 [get_nets [list {HMBcal_2TCsBD_i/xlconcat_2_dout[0]} {HMBcal_2TCsBD_i/xlconcat_2_dout[1]} {HMBcal_2TCsBD_i/xlconcat_2_dout[2]} {HMBcal_2TCsBD_i/xlconcat_2_dout[3]} {HMBcal_2TCsBD_i/xlconcat_2_dout[4]} {HMBcal_2TCsBD_i/xlconcat_2_dout[5]} {HMBcal_2TCsBD_i/xlconcat_2_dout[6]} {HMBcal_2TCsBD_i/xlconcat_2_dout[7]} {HMBcal_2TCsBD_i/xlconcat_2_dout[8]} {HMBcal_2TCsBD_i/xlconcat_2_dout[9]} {HMBcal_2TCsBD_i/xlconcat_2_dout[10]} {HMBcal_2TCsBD_i/xlconcat_2_dout[11]} {HMBcal_2TCsBD_i/xlconcat_2_dout[12]} {HMBcal_2TCsBD_i/xlconcat_2_dout[13]} {HMBcal_2TCsBD_i/xlconcat_2_dout[14]} {HMBcal_2TCsBD_i/xlconcat_2_dout[15]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe6]
-set_property port_width 16 [get_debug_ports u_ila_0/probe6]
-connect_debug_port u_ila_0/probe6 [get_nets [list {HMBcal_2TCsBD_i/xlconcat_0_dout[0]} {HMBcal_2TCsBD_i/xlconcat_0_dout[1]} {HMBcal_2TCsBD_i/xlconcat_0_dout[2]} {HMBcal_2TCsBD_i/xlconcat_0_dout[3]} {HMBcal_2TCsBD_i/xlconcat_0_dout[4]} {HMBcal_2TCsBD_i/xlconcat_0_dout[5]} {HMBcal_2TCsBD_i/xlconcat_0_dout[6]} {HMBcal_2TCsBD_i/xlconcat_0_dout[7]} {HMBcal_2TCsBD_i/xlconcat_0_dout[8]} {HMBcal_2TCsBD_i/xlconcat_0_dout[9]} {HMBcal_2TCsBD_i/xlconcat_0_dout[10]} {HMBcal_2TCsBD_i/xlconcat_0_dout[11]} {HMBcal_2TCsBD_i/xlconcat_0_dout[12]} {HMBcal_2TCsBD_i/xlconcat_0_dout[13]} {HMBcal_2TCsBD_i/xlconcat_0_dout[14]} {HMBcal_2TCsBD_i/xlconcat_0_dout[15]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe7]
-set_property port_width 32 [get_debug_ports u_ila_0/probe7]
-connect_debug_port u_ila_0/probe7 [get_nets [list {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[0]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[1]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[2]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[3]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[4]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[5]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[6]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[7]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[8]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[9]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[10]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[11]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[12]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[13]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[14]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[15]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[16]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[17]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[18]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[19]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[20]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[21]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[22]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[23]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[24]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[25]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[26]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[27]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[28]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[29]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[30]} {HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0_FIFOdata[31]}]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe8]
-set_property port_width 1 [get_debug_ports u_ila_0/probe8]
-connect_debug_port u_ila_0/probe8 [get_nets [list HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/HSCLK]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe9]
-set_property port_width 1 [get_debug_ports u_ila_0/probe9]
-connect_debug_port u_ila_0/probe9 [get_nets [list HMBcal_2TCsBD_i/TwoTARGET_C_TopLevel_0/U0/TC_RDAD_WL_SS/SS_INCR]]
-create_debug_port u_ila_0 probe
-set_property PROBE_TYPE DATA_AND_TRIGGER [get_debug_ports u_ila_0/probe10]
-set_property port_width 1 [get_debug_ports u_ila_0/probe10]
-connect_debug_port u_ila_0/probe10 [get_nets [list HMBcal_2TCsBD_i/TARGETC_axi_int_0_StreamReady]]
-set_property C_CLK_INPUT_FREQ_HZ 300000000 [get_debug_cores dbg_hub]
-set_property C_ENABLE_CLK_DIVIDER false [get_debug_cores dbg_hub]
-set_property C_USER_SCAN_CHAIN 1 [get_debug_cores dbg_hub]
-connect_debug_port dbg_hub/clk [get_nets u_ila_0_FCLK_CLK0]
+

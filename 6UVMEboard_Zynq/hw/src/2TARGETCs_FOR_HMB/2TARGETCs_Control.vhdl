@@ -701,15 +701,11 @@ begin
                     when IDLE =>
                         if ((TCReg(TC_CONTROL_REG) and C_TESTSTREAM_MASK) = C_TESTSTREAM_MASK) then
                             TestStream_stm <= PULSE;
-                        else
-                            TestStream_stm <= IDLE;
                         end if;
                     when PULSE =>
                         TestStream_stm <= RESET;
                     when RESET =>	-- Wait for user PS clear register
-                        if ((TCReg(TC_CONTROL_REG) and C_TESTSTREAM_MASK) = C_TESTSTREAM_MASK) then
-                            TestStream_stm <= RESET;
-                        else
+                        if ((TCReg(TC_CONTROL_REG) and C_TESTSTREAM_MASK) /= C_TESTSTREAM_MASK) then
                             TestStream_stm <= IDLE;
                         end if;
                    end case;

@@ -224,6 +224,7 @@ void axidma_rx_callback(XAxiDma* AxiDmaInst){
 				inboundRingManager.writeLocation = 0;
 			}
 			XAxiDma_SimpleTransfer_hm((UINTPTR)inboundRingManager.writePointer , SIZE_DATA_ARRAY_BYT);
+			print_out_data_axi(inboundRingManager.writePointer);
 		    Xil_DCacheInvalidateRange((UINTPTR)inboundRingManager.writePointer , SIZE_DATA_ARRAY_BYT);
 		  	ControlRegisterWrite(PSBUSY_MASK,DISABLE,  regptr_0);
 
@@ -602,6 +603,8 @@ int interrupts_initialization(void)
 	Xil_ExceptionRegisterHandler(XIL_EXCEPTION_ID_IRQ_INT,
 			(Xil_ExceptionHandler)XScuGic_DeviceInterruptHandler,
 			(void *)INTC_DEVICE_ID);
+
+	//Xil_ExceptionRemoveHandler(XIL_EXCEPTION_ID_DATA_ABORT_INT);
 	/*
 	 * Connect the device driver handler that will be called when an
 	 * interrupt for the device occurs, the handler defined above performs
@@ -636,6 +639,7 @@ int interrupts_initialization(void)
 	XScuGic_RegisterHandler(INTC_BASE_ADDR, XPAR_FABRIC_AXI_DMA_0_S2MM_INTROUT_INTR,
 					(Xil_ExceptionHandler)axidma_rx_callback,
 					(void *)&AxiDmaInstance);
+
 	/*
 	 * Enable the interrupt for axidma.
 	 */
@@ -682,6 +686,7 @@ void enable_interrupts()
 	 * Enable non-critical exceptions.
 	 */
 	Xil_ExceptionEnableMask(XIL_EXCEPTION_IRQ);
+
 
 	/* Enable every interrupts */
 	XScuTimer_EnableInterrupt(&TimerScuInstance);

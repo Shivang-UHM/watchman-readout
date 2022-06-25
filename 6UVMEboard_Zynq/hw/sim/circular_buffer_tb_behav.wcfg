@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="circular_buffer_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="circular_buffer_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="4035564fs"></ZoomStartTime>
+      <ZoomEndTime time="4254129fs"></ZoomEndTime>
+      <Cursor1Time time="11000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="200"></NameColumnWidth>
+      <ValueColumnWidth column_width="85"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="36" />
+   <wave_markers>
+      <marker label="" time="4296000" />
+      <marker label="" time="4232000" />
+      <marker label="" time="4168000" />
+   </wave_markers>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/rst">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/trigger">
+      <obj_property name="ElementShortName">trigger</obj_property>
+      <obj_property name="ObjectShortName">trigger</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/full_fifo">
+      <obj_property name="ElementShortName">full_fifo</obj_property>
+      <obj_property name="ObjectShortName">full_fifo</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/circular_buffer_tb/sstin_cntr">
+      <obj_property name="ElementShortName">sstin_cntr[2:0]</obj_property>
+      <obj_property name="ObjectShortName">sstin_cntr[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/mode">
+      <obj_property name="ElementShortName">mode</obj_property>
+      <obj_property name="ObjectShortName">mode</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/enable_write">
+      <obj_property name="ElementShortName">enable_write</obj_property>
+      <obj_property name="ObjectShortName">enable_write</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/circular_buffer_tb/WR_RS">
+      <obj_property name="ElementShortName">WR_RS[1:0]</obj_property>
+      <obj_property name="ObjectShortName">WR_RS[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/circular_buffer_tb/WR_CS">
+      <obj_property name="ElementShortName">WR_CS[5:0]</obj_property>
+      <obj_property name="ObjectShortName">WR_CS[5:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/circular_buffer_tb/RD_add">
+      <obj_property name="ElementShortName">RD_add[8:0]</obj_property>
+      <obj_property name="ObjectShortName">RD_add[8:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/circular_buffer_tb/TriggerInfo">
+      <obj_property name="ElementShortName">TriggerInfo[11:0]</obj_property>
+      <obj_property name="ObjectShortName">TriggerInfo[11:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider953" type="divider">
+      <obj_property name="label">HMB_roundBuffer</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#FF00FF</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/RST">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/trigger">
+      <obj_property name="ElementShortName">trigger</obj_property>
+      <obj_property name="ObjectShortName">trigger</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/full_fifo">
+      <obj_property name="ElementShortName">full_fifo</obj_property>
+      <obj_property name="ObjectShortName">full_fifo</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/mode">
+      <obj_property name="ElementShortName">mode</obj_property>
+      <obj_property name="ObjectShortName">mode</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/delay_trigger">
+      <obj_property name="ElementShortName">delay_trigger[3:0]</obj_property>
+      <obj_property name="ObjectShortName">delay_trigger[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/sstin_updateBit">
+      <obj_property name="ElementShortName">sstin_updateBit[2:0]</obj_property>
+      <obj_property name="ObjectShortName">sstin_updateBit[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/sstin_cntr">
+      <obj_property name="ElementShortName">sstin_cntr[2:0]</obj_property>
+      <obj_property name="ObjectShortName">sstin_cntr[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/stm_circularBuffer">
+      <obj_property name="ElementShortName">stm_circularBuffer</obj_property>
+      <obj_property name="ObjectShortName">stm_circularBuffer</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/longpulse_stm">
+      <obj_property name="ElementShortName">longpulse_stm</obj_property>
+      <obj_property name="ObjectShortName">longpulse_stm</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/cnt_wr_en">
+      <obj_property name="ElementShortName">cnt_wr_en[3:0]</obj_property>
+      <obj_property name="ObjectShortName">cnt_wr_en[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/trigger_intl">
+      <obj_property name="ElementShortName">trigger_intl</obj_property>
+      <obj_property name="ObjectShortName">trigger_intl</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/wr_intl">
+      <obj_property name="ElementShortName">wr_intl[7:0]</obj_property>
+      <obj_property name="ObjectShortName">wr_intl[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/rd_add_intl">
+      <obj_property name="ElementShortName">rd_add_intl</obj_property>
+      <obj_property name="ObjectShortName">rd_add_intl</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/enable_write">
+      <obj_property name="ElementShortName">enable_write</obj_property>
+      <obj_property name="ObjectShortName">enable_write</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/RD_add">
+      <obj_property name="ElementShortName">RD_add[8:0]</obj_property>
+      <obj_property name="ObjectShortName">RD_add[8:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/fifo_wr_en_intl">
+      <obj_property name="ElementShortName">fifo_wr_en_intl</obj_property>
+      <obj_property name="ObjectShortName">fifo_wr_en_intl</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/add_offset_flag">
+      <obj_property name="ElementShortName">add_offset_flag</obj_property>
+      <obj_property name="ObjectShortName">add_offset_flag</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/stm_read">
+      <obj_property name="ElementShortName">stm_read</obj_property>
+      <obj_property name="ObjectShortName">stm_read</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/WR_CS">
+      <obj_property name="ElementShortName">WR_CS[5:0]</obj_property>
+      <obj_property name="ObjectShortName">WR_CS[5:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/WR_RS">
+      <obj_property name="ElementShortName">WR_RS[1:0]</obj_property>
+      <obj_property name="ObjectShortName">WR_RS[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/long_pulse_sig">
+      <obj_property name="ElementShortName">long_pulse_sig</obj_property>
+      <obj_property name="ObjectShortName">long_pulse_sig</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/wait_cntr">
+      <obj_property name="ElementShortName">wait_cntr[15:0]</obj_property>
+      <obj_property name="ObjectShortName">wait_cntr[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="vbus" fp_name="vbus988">
+      <obj_property name="label">Add_gointo_TCpins</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/WR_CS[5]">
+         <obj_property name="ElementShortName">[5]</obj_property>
+         <obj_property name="ObjectShortName">[5]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/WR_CS[4]">
+         <obj_property name="ElementShortName">[4]</obj_property>
+         <obj_property name="ObjectShortName">[4]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/WR_CS[3]">
+         <obj_property name="ElementShortName">[3]</obj_property>
+         <obj_property name="ObjectShortName">[3]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/WR_CS[2]">
+         <obj_property name="ElementShortName">[2]</obj_property>
+         <obj_property name="ObjectShortName">[2]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/WR_CS[1]">
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">[1]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/WR_CS[0]">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">[0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/WR_RS[1]">
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">[1]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/circular_buffer_tb/DUT/HMB_RoundBuff/WR_RS[0]">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">[0]</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>

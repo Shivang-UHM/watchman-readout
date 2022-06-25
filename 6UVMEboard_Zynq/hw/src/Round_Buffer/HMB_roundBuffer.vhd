@@ -77,12 +77,15 @@ type longPulse_type is(
 signal longpulse_stm : longpulse_type := IDLE;
 signal sstin_cntr_intl: std_logic_vector(2 downto 0);
 
+signal add_offset_flag : std_logic := '0';
+
 attribute mark_debug : string; 
 attribute mark_debug of wait_cntr: signal is "true";
 attribute mark_debug of rd_add_intl: signal is "true";
 attribute mark_debug of trigger_intl: signal is "true";
 attribute mark_debug of cnt_wr_en: signal is "true";
 attribute mark_debug of wr_intl: signal is "true";
+attribute mark_debug of fifo_wr_en_intl : signal is "true";
 --attribute mark_debug of subBuffer_triggered: signal is "true";
 --attribute mark_debug of trigger: signal is "true";
 attribute mark_debug of WR_CS: signal is "true";
@@ -122,6 +125,7 @@ if (RST = '0') or (mode='0') then
 --        rd_add_intl <= 0;
         wr_intl <= (others=>'0');
 	   	wait_cntr <=(others=>'0');
+	   	add_offset_flag <= '0';
 
         
 --        fifo_wr_en_intl <= '0';
@@ -173,6 +177,8 @@ if (RST = '0') or (mode='0') then
 
 	   if (sstin_cntr=sstin_updateBit) then
 	   
+	      -- add_offset_flag <= '1';
+	       
 		   if (unsigned (wr_intl) < 255) then   
 --			   rd_add_intl <=  to_integer(unsigned(wr_intl)) - to_integer(unsigned(delay_trigger));
 --			   fifo_wr_en_intl <= '1';
@@ -182,6 +188,7 @@ if (RST = '0') or (mode='0') then
 		   else
 		   	    wr_intl <= X"FF"; -- 255
 			   --wr_intl <= (others => '0');
+			   add_offset_flag <= '0';
 			   stm_circularBuffer <= wait_for_dig;
 --			   fifo_wr_en_intl <= '0';
 		   end if;
@@ -244,16 +251,22 @@ if (RST = '0') or (mode='0') then
 				end if;
 				
  		when first_window_offset_st =>  			
-				offset_v := to_integer(unsigned(wr_intl & '0'))- to_integer(unsigned(delay_trigger));
-				rd_add_intl <= to_integer(unsigned(wr_intl & '0')) - to_integer(unsigned(delay_trigger)) - 1 ;
---				fifo_wr_en_intl <= '1';
-				stm_read <= read_address_st;
+				
+            if ( (sstin_cntr="011") or (sstin_cntr= "111")  ) then
+					offset_v := to_integer(unsigned(wr_intl & '0')) + to_integer(unsigned(delay_trigger));
+				    rd_add_intl <= to_integer(unsigned(wr_intl & '0')) + to_integer(unsigned(delay_trigger)); -- - 1 ;
+				    stm_read <= read_address_st;
+				else
+				    stm_read <= first_window_offset_st;
+				end if;
+						
+				
 
 		when read_address_st =>
 	  	
-			if ( (sstin_cntr="100") or (sstin_cntr= "000")  ) then
+			if ( (sstin_cntr="011") or (sstin_cntr= "111")  ) then
 	
-				if ( (rd_add_intl) < (0 + offset_v  ) ) then
+				if ( (rd_add_intl) < (10 + offset_v  ) ) then
 					rd_add_intl <= rd_add_intl + 1 ;
 					fifo_wr_en_intl <= '1';
 					stm_read <=read_address_st;

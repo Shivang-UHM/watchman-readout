@@ -3,7 +3,7 @@
   <spirit:vendor>user.org</spirit:vendor>
   <spirit:library>user</spirit:library>
   <spirit:name>TARGETC_axi_int</spirit:name>
-  <spirit:version>2.1</spirit:version>
+  <spirit:version>3.0</spirit:version>
   <spirit:busInterfaces>
     <spirit:busInterface>
       <spirit:name>M00_AXIS</spirit:name>
@@ -130,7 +130,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>f7d853ea</spirit:value>
+            <spirit:value>f169345c</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -146,7 +146,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>f7d853ea</spirit:value>
+            <spirit:value>f169345c</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -160,7 +160,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>ba7bfb58</spirit:value>
+            <spirit:value>cf095d45</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -437,11 +437,6 @@
         <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXIS_TDATA_WIDTH">32</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
-        <spirit:name>NBRWINDOW_MAX</spirit:name>
-        <spirit:displayName>Nbrwindow Max</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.NBRWINDOW_MAX">8</spirit:value>
-      </spirit:modelParameter>
-      <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>FIFO_NBR_MAX</spirit:name>
         <spirit:displayName>Fifo Nbr Max</spirit:displayName>
         <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.FIFO_NBR_MAX">1030</spirit:value>
@@ -463,13 +458,21 @@
     <spirit:fileSet>
       <spirit:name>xilinx_vhdlsynthesis_view_fileset</spirit:name>
       <spirit:file>
+        <spirit:name>hdl/xgen_axistream_32.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
         <spirit:name>hdl/TARGETC_axi_int_v1_0.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_f7d853ea</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_5958dc92</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_vhdlbehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>hdl/xgen_axistream_32.vhd</spirit:name>
+        <spirit:fileType>vhdlSource</spirit:fileType>
+      </spirit:file>
       <spirit:file>
         <spirit:name>hdl/TARGETC_axi_int_v1_0.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
@@ -478,9 +481,9 @@
     <spirit:fileSet>
       <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>xgui/TARGETC_axi_int_v2_1.tcl</spirit:name>
+        <spirit:name>xgui/TARGETC_axi_int_v3_0.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_ba7bfb58</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_cf095d45</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
@@ -502,11 +505,13 @@
       <spirit:name>C_M_AXIS_TDATA_WIDTH</spirit:name>
       <spirit:displayName>C M Axis Tdata Width</spirit:displayName>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_AXIS_TDATA_WIDTH">32</spirit:value>
-    </spirit:parameter>
-    <spirit:parameter>
-      <spirit:name>NBRWINDOW_MAX</spirit:name>
-      <spirit:displayName>Nbrwindow Max</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.NBRWINDOW_MAX">8</spirit:value>
+      <spirit:vendorExtensions>
+        <xilinx:parameterInfo>
+          <xilinx:enablement>
+            <xilinx:presence>required</xilinx:presence>
+          </xilinx:enablement>
+        </xilinx:parameterInfo>
+      </spirit:vendorExtensions>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>FIFO_NBR_MAX</spirit:name>
@@ -529,13 +534,15 @@
       <xilinx:taxonomies>
         <xilinx:taxonomy>AXI_Peripheral</xilinx:taxonomy>
       </xilinx:taxonomies>
-      <xilinx:displayName>TARGETC_axi_int_v2.1</xilinx:displayName>
+      <xilinx:displayName>TARGETC_axi_int_v3.0</xilinx:displayName>
       <xilinx:coreRevision>2</xilinx:coreRevision>
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>user.org:user:TARGETC_axi_int:1.0</xilinx:canUpgradeFrom>
         <xilinx:canUpgradeFrom>user.org:user:TARGETC_axi_int:2.0</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TARGETC_axi_int:2.1</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>user.org:user:TARGETC_axi_int:2.2</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2022-03-05T06:05:58Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2022-06-15T04:24:49Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@5d545c86_ARCHIVE_LOCATION">/home/salvador/salvador_fork/watchman-readout/FMC_TargetC_Prototype/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@753a7bb1_ARCHIVE_LOCATION">/home/salvador/salvador_fork/watchman-readout/FMC_TargetC_Prototype/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
@@ -647,15 +654,100 @@
         <xilinx:tag xilinx:name="ui.data.coregen.dd@573637ae_ARCHIVE_LOCATION">/home2/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@360a7728_ARCHIVE_LOCATION">/home2/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.dd@3b57afa4_ARCHIVE_LOCATION">/home2/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2e21764b_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3958e18f_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5750fa0f_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@28f529ae_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5698de1d_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@615b67c7_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74beedec_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b41d4d7_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5700df1f_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b62da52_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7f494ab1_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e5415b2_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@30a712d0_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3303e9a5_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@216f210_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@36861ecf_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@45af1216_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e3a0d2_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5752256c_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@44b5426a_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@699e6501_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1c54106b_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@166ce1c3_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@68443a20_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6aafd22f_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@49f52996_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@21904a72_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1dbd79f3_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@49b781b1_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@ada1ffe_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@398c8796_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7e94e74c_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@458557a8_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@173701b4_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@664fe221_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6aca2b42_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@302cce23_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@62030679_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7870703d_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@407cab7d_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1837a551_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2830234_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4fee78c_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@39e3bb46_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ccad9d9_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2272d852_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2b0f6090_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@58f2dd08_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@445e97f6_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6af7f8b1_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6c835282_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@419a6b7e_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7bce6868_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a832d95_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@799e284b_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@362986bc_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@503f781f_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2d097373_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3fbe3508_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7c2850ac_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a15bf4_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@205dd30b_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ce0b11a_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6808e392_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@236400d1_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5441ab20_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3fb4d5cd_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c73615e_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@13871a95_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4caa49ba_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4592b236_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4cee23fc_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@52667c80_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1293d60c_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@fd79bbf_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@13fa13f3_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@44d641ed_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a19f616_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@8c40136_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4550d269_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3973d56f_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@18bf6b94_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@83f38a1_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@571345e1_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20f3ea47_ARCHIVE_LOCATION">/home1/shivang/github/watchman-readout/6UVMEboard_Zynq/ip_repo/TARGETC_axi_int_1.0</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2020.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="04ace5fe"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="1767fa4d"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="35942ce0"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="c6b39851"/>
-      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="f75540dd"/>
-      <xilinx:checksum xilinx:scope="parameters" xilinx:value="1f1ca78e"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="99c1a877"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="39287ea8"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>
 </spirit:component>

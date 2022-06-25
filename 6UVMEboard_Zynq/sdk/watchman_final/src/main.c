@@ -1,3 +1,4 @@
+
 /**
  * @file 	main.c
  * @author	Anthony Schluchin
@@ -47,7 +48,7 @@ extern volatile bool flag_while_loop;
 /** @brief Array of flag, one for each PMT */
 extern int flag_axidma_rx[4];
 /** @brief Array containing registers of AXI-lite */
-extern int* regptr;
+extern int *regptr;
 /** @brief Flag raised when the user send the command "get transfer function" */
 extern volatile bool get_transfer_fct_flag;
 /** @brief Flag raised when the user send the command "get windows" */
@@ -58,15 +59,13 @@ extern volatile bool get_windows_raw_flag;
 
 extern volatile bool restart_flag;
 
-
 /** @brief Flag raised when a pedestal value is required by the user */
 extern volatile bool pedestal_flag;
-
 
 /** @brief Flag true when the list is empty (first_element = last_element) */
 extern volatile bool empty_flag;
 /** @brief Pointer on the first element of the list used in trigger mode */
-extern data_list* first_element;
+extern data_list *first_element;
 /** @brief Flag raised when AXI-DMA has finished an transfer, in OnDemand mode */
 extern volatile bool flag_axidma_rx_done;
 //******** To test the error detection********************/
@@ -92,28 +91,28 @@ extern int pedestalAvg;
 /** Value from the GUI for the number of windows for pedestal calculation   */
 extern int nmbrWindowsPed;
 ///** Value from the GUI for voltage value for comparators and vped  */
-//extern int VPED_ANALOG;
+// extern int VPED_ANALOG;
 
 /** @brief Buffer used to send the data (50 bytes above it reserved for protocol header) */
- extern char* frame_buf;
+extern char *frame_buf;
 
- /* data structure from PL */
- extern InboundRingManager_t inboundRingManager;
+/* data structure from PL */
+extern InboundRingManager_t inboundRingManager;
 
- /** Flag to start pedestal mode pedestal acquisition */
- extern bool pedestalTriggerModeFlag;
+/** Flag to start pedestal mode pedestal acquisition */
+extern bool pedestalTriggerModeFlag;
 
- /**number of average for pedestals in trigger mode*/
- extern int nbr_avg_ped_triggerMode;
- /** Flag to start division by  nbr_avg_ped_triggerMode */
- extern bool dividePedestalsFlag;
+/**number of average for pedestals in trigger mode*/
+extern int nbr_avg_ped_triggerMode;
+/** Flag to start division by  nbr_avg_ped_triggerMode */
+extern bool dividePedestalsFlag;
 
- extern int *regptr_0;
+extern int *regptr_0;
 
- extern int *regptr_1;
+extern int *regptr_1;
 
- extern uint32_t pedestal_0[512][32][32];
-
+extern uint32_t pedestal_0[512][32][32];
+extern XAxiDma AxiDmaInstance;
 /*********************** Global variables ****************/
 /*********************************************************/
 /** @brief Network interface */
@@ -124,437 +123,281 @@ static struct netif server_netif;
 /**
  * @brief This is the enumeration of the process to stop when exiting the program
  */
-typedef enum clean_state_enum {
-	GLOBAL_VAR=0x1,	/**< Free the global variable reserved in function init_global_var */
-	LOG_FILE=0x2,	/**< From this step, problem can be logged */
-	INTERRUPT=0x4,	/**< Stop the interrupt */
-	UDP=0x8,		/**< Close both of the UDP communications */
+typedef enum clean_state_enum
+{
+	GLOBAL_VAR = 0x1, /**< Free the global variable reserved in function init_global_var */
+	LOG_FILE = 0x2,	  /**< From this step, problem can be logged */
+	INTERRUPT = 0x4,  /**< Stop the interrupt */
+	UDP = 0x8,		  /**< Close both of the UDP communications */
 } clean_state_en;
 /**
  * @brief This is the enumeration of the state machine
  */
-typedef enum dma_stm_enum{
-	IDLE, 				/**< No data to send, waiting on a command */
-	STREAM,				/**< System in mode streaming */
-	GET_TRANSFER_FCT, 	/**< System sending the data for the transfer function in response to the corresponding command */
-	GET_WINDOWS,		/**< System sending the data of consecutive windows in response to the corresponding command */
-	GET_PEDESTAL,      /**< System getting the pedestal for an specific voltage and nmbr of windows, data saved into the pedestal variable */
-	GET_WINDOWS_RAW,   /**< System getting the pedestal for an specific voltage and nmbr of windows, dat */
+typedef enum dma_stm_enum
+{
+	IDLE,			  /**< No data to send, waiting on a command */
+	STREAM,			  /**< System in mode streaming */
+	GET_TRANSFER_FCT, /**< System sending the data for the transfer function in response to the corresponding command */
+	GET_WINDOWS,	  /**< System sending the data of consecutive windows in response to the corresponding command */
+	GET_PEDESTAL,	  /**< System getting the pedestal for an specific voltage and nmbr of windows, data saved into the pedestal variable */
+	GET_WINDOWS_RAW,  /**< System getting the pedestal for an specific voltage and nmbr of windows, dat */
 	DIVIDE_PEDESTALS,
-	RESTART,           /**< Restart main() */
+	RESTART, /**< Restart main() */
 } dma_stm_en;
 
-
 /*** Function prototypes *********************************************/
-void end_main(clean_state_en, char* error_txt);
+void end_main(clean_state_en, char *error_txt);
 void updateInboundCircBuffer();
 void restart(void);
 void setupDACs(void);
-void testPattern(int*regptr);
+void testPattern(int *regptr);
 void SDcardAndFiles(void);
 void networkInterface(void);
 void setPCaddress(void);
 void initPedestals(void);
-void initTARGETregisters(int*regptr);
+void initTARGETregisters(int *regptr);
 void transferFunctionInit(void);
 
+__attribute__((section(".ps7_ddr_0"))) data_axi DDR_incoming_waveform_ring_buffer[INBOUND_RING_BUFFER_LENGTH_IN_PACKETS];
 
+void clearInboundBuffer(void)
+{
+	// memset( (void *) DDR_incoming_waveform_ring_buffer, 0, MAX_INBOUND_PACKET_BYTES  * INBOUND_RING_BUFFER_LENGTH_IN_PACKETS );
+}
 
-int s;
-__attribute__((section(".ps7_ddr_0"))) data_axi  DDR_incoming_waveform_ring_buffer[INBOUND_RING_BUFFER_LENGTH_IN_PACKETS];
+void init_FPGA()
+{
 
-void clearInboundBuffer(void) {
-	memset( (void *) DDR_incoming_waveform_ring_buffer, 0, MAX_INBOUND_PACKET_BYTES  * INBOUND_RING_BUFFER_LENGTH_IN_PACKETS );
+	disable_interrupts();
+	/* now enable interrupts */
+	enable_interrupts();
+}
+
+int init_ASIC()
+{
+	GetTargetCStatus(regptr_0);
+	GetTargetCControl(regptr_0);
+	setupDACs();
+	initTARGETregisters(regptr_0);
+	printf("after INIT\r\n");
+
+	GetTargetCStatus(regptr_0);
+
+	GetTargetCControl(regptr_0);
+
+	// Waiting on PL's clocks to be ready
+	while ((regptr_0[TC_STATUS_REG] & LOCKED_MASK) != LOCKED_MASK)
+	{
+		sleep(1);
+	}
+	printf("after LOCKEDmask\r\n");
+
+	GetTargetCStatus(regptr_0);
+
+	GetTargetCControl(regptr_0);
+
+	printf("PL's clock ready\r\n");
+
+	SetTargetCRegisters(regptr_0);
+
+	printf("sleep to set the debug core\r\n");
+	GetTargetCStatus(regptr_0);
+
+	GetTargetCControl(regptr_0);
+
+	//testPattern(regptr_0);
+}
+
+void init_software()
+{
+	Xil_DCacheDisable();
+}
+
+int loop()
+{
+	flag_while_loop = true;
+	dma_stm_en state_main = IDLE;
+	//	pedestal_triggerMode_init();
+	usleep(100);
+	int pedestal_Avg = 100;
+	int nmbr_Windows_Ped = 1;
+
+	while (run_flag)
+	{
+		/* Simulate a infinity loop to trigger the watchdog  */
+
+		if (flag_axidma_error)
+		{
+			end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT | UDP, "AXI-DMA failed!");
+			return -1;
+		}
+		switch (state_main)
+		{
+		case IDLE:
+			if (stream_flag)
+			{
+				xil_printf("From IDLE to STREAM \n");
+
+				state_main = STREAM;
+			}
+
+			break;
+		case STREAM:
+			if ((!stream_flag))
+			{
+				xil_printf("if ((!stream_flag)) \r\n");
+				usleep(100);
+				ControlRegisterWrite(SWRESET_MASK, DISABLE, regptr_0);
+				ControlRegisterWrite(SWRESET_MASK, ENABLE, regptr_0);
+
+				usleep(100);
+				state_main = IDLE;
+			}
+
+			ControlRegisterWrite(SMODE_MASK, ENABLE, regptr_0); // mode for selecting the interrupt, 1 for dma
+			usleep(100);
+
+			ControlRegisterWrite(SS_TPG_MASK, ENABLE, regptr_0); // 0 for test pattern mode, 1 for sample mode (normal mode)
+			usleep(100);
+
+			ControlRegisterWrite(CPUMODE_MASK, ENABLE, regptr_0); // mode trigger, 0 for usermode (cpu mode), 1 for trigger mode
+
+			usleep(100);
+
+			xil_printf("flag_axidma_rx_done= %d \r\n", flag_axidma_rx_done);
+			usleep(100);
+
+			inboundRingManager.writePointer = DDR_incoming_waveform_ring_buffer;
+			inboundRingManager.procPointer = inboundRingManager.writePointer;
+			inboundRingManager.firstAllowedPointer = inboundRingManager.writePointer;
+			inboundRingManager.lastAllowedPointer = inboundRingManager.writePointer + (INBOUND_RING_BUFFER_LENGTH_IN_PACKETS - 1);
+			PrintInboundRingStatus(inboundRingManager);
+
+			printf("after inboundRingManager init \r\n");
+			usleep(100);
+
+			XAxiDma_SimpleTransfer_hm((UINTPTR)inboundRingManager.writePointer, SIZE_DATA_ARRAY_BYT);
+			usleep(100);
+
+			triggerMode(ENABLE);
+
+			Xil_DCacheInvalidateRange((UINTPTR)inboundRingManager.writePointer, SIZE_DATA_ARRAY_BYT);
+			usleep(100);
+			xil_printf(" pendingCountBefore: %d \r\n", inboundRingManager.pendingCount);
+			usleep(100);
+			printf("after inboundRingManager print, starting while loop \r\n");
+			usleep(100);
+			int i = 0;
+			int trigger_freq = 10000;
+			bool trigger_flag;
+			//	 XTime_GetTime(&tStart);
+			while (stream_flag)
+			{
+				if (inboundRingManager.pendingCount > 0)
+				{
+					if (pedestalTriggerModeFlag == true)
+					{
+						pedestal_triggerMode_getArrays(&(inboundRingManager));
+					}
+					if (pedestalTriggerModeFlag != true)
+					{
+						// xil_printf("%d\t", (uint32_t)inboundRingManager.writePointer->wdo_id);
+					}
+					// XAxiDma_SimpleTransfer_hm((UINTPTR)inboundRingManager.writePointer , SIZE_DATA_ARRAY_BYT);
+					Xil_DCacheInvalidateRange((UINTPTR)inboundRingManager.writePointer, SIZE_DATA_ARRAY_BYT);
+
+					updateInboundCircBuffer();
+				}
+
+				/* If needed, reload watchdog's counter */
+				if (flag_scu_timer)
+				{
+					XScuWdt_RestartWdt(&WdtScuInstance);
+					flag_scu_timer = false;
+				}
+
+				/* The DMA had a problem */
+				if (flag_axidma_error)
+				{
+					printf("Error with DMA interrupt: TPG !\r\n");
+					return XST_FAILURE;
+				}
+				//							printf("inboundRingManager.pendingCount %d \r\n", (uint16_t)(inboundRingManager.pendingCount));
+				if (!trigger_flag)
+				{
+					if (i == trigger_freq)
+					{
+						PStrigger(ENABLE);
+						trigger_flag = 1;
+						i = 0;
+					}
+					else
+					{
+						i++;
+					}
+				}
+			}
+
+			stream_flag = FALSE;
+			//	XTime_GetTime(&tEnd);
+			usleep(100);
+			printf("leaving trigger mode\r\n");
+			xil_printf("p %d \r\n", (uint16_t)(inboundRingManager.processedCount));
+			PrintInboundRingStatus(inboundRingManager);
+			//	printf("Time1 %lld, Time2 %lld, Diff %lld \r\n", tStart, tEnd, tEnd-tStart);
+			state_main = IDLE;
+			clearInboundBuffer();
+
+			printf("go back to idle\r\n");
+			break;
+		}
+	}
 }
 
 int main()
 {
 	xil_printf("\n\r\n\r------START------\r\n");
-    data_list* tmp_ptr_main  = (data_list *)malloc(sizeof(data_list));
-           	if(!tmp_ptr_main){
-           		printf("malloc for tmp_ptr failed in function, %s!\r\n", __func__);
-           		return XST_FAILURE;
-           	}
 
-//    dma_stm_en state_main = IDLE;
+	//    dma_stm_en state_main = IDLE;
 
-    GetTargetCStatus(regptr_0);
-//  GetTargetCStatus(regptr_1);
+	//  GetTargetCStatus(regptr_1);
 
-    GetTargetCControl(regptr_0);
-//  GetTargetCControl(regptr_1);
-  	printf("before init global\r\n");
+	//  GetTargetCControl(regptr_1);
+	printf("before init global\r\n");
 
 	/* Initialize the global variables */
-	if(init_global_var() == XST_SUCCESS) xil_printf("Global variables initialization pass!\r\n");
-	else{
+	if (init_global_var() == XST_SUCCESS)
+		xil_printf("Global variables initialization pass!\r\n");
+	else
+	{
 		end_main(GLOBAL_VAR, "Global variables initialization failed!");
 		return -1;
 	}
 	SDcardAndFiles();
 	/* Initialize the interrupts */
-	if(interrupts_initialization() == XST_SUCCESS) xil_printf("Interrupts initialization pass!\r\n");
-	else{
+	if (interrupts_initialization() == XST_SUCCESS)
+		xil_printf("Interrupts initialization pass!\r\n");
+	else
+	{
 		end_main(GLOBAL_VAR | LOG_FILE, "Interrupts initialization failed!");
 		return -1;
 	}
 	/* Initialize the LWip */
 	lwip_init();
 
-	disable_interrupts();
-	/* now enable interrupts */
-	enable_interrupts();
-///  Setup DACs
-	setupDACs();
-/// Network interface
+	init_software();
+	init_FPGA();
+	///  Setup DACs
+	init_ASIC();
+
+	/// Network interface
 	networkInterface();
 	setPCaddress();
 
-
-	initTARGETregisters(regptr_0);
-//	initTARGETregisters(regptr_1);
-	printf("after INIT\r\n");
-
-	GetTargetCStatus(regptr_0);
-//	GetTargetCStatus(regptr_1);
-
-	GetTargetCControl(regptr_0);
-//	GetTargetCControl(regptr_1);
-
-	// Waiting on PL's clocks to be ready
-	while((regptr_0[TC_STATUS_REG] & LOCKED_MASK) != LOCKED_MASK){
-		sleep(1);
-	}
-
-	// Waiting on PL's clocks to be ready
-//	while((regptr_1[TC_STATUS_REG] & LOCKED_MASK) != LOCKED_MASK){
-//		sleep(1);
-//	}
-	printf("after LOCKEDmask\r\n");
-
-
-	GetTargetCStatus(regptr_0);
-//	GetTargetCStatus(regptr_1);
-
-	GetTargetCControl(regptr_0);
-//	GetTargetCControl(regptr_1);
-
-	printf("PL's clock ready\r\n");
-	// Initialize TargetC's registers
-	SetTargetCRegisters(regptr_0);
-//	usleep(10);
-//	SetTargetCRegisters(regptr_1);
-
-	printf("sleep to set the debug core\r\n");
-	GetTargetCStatus(regptr_0);
-//	GetTargetCStatus(regptr_1);
-
-	GetTargetCControl(regptr_0);
-//	GetTargetCControl(regptr_1);
-//	usleep(100);
-//	testPattern(regptr_0);
-//	testPattern(regptr_1);
-
-//	ControlRegisterWrite(SS_TPG_MASK,ENABLE, regptr_0);
-//	usleep(100);
-//	ControlRegisterWrite(SS_TPG_MASK,ENABLE, regptr_1);
 	usleep(100);
-
-// 	initPedestals();
-
-	flag_while_loop = true;
-	dma_stm_en state_main = IDLE;
-//	pedestal_triggerMode_init();
-	usleep(100);
-	int pedestal_Avg=100;
-	int nmbr_Windows_Ped=1;
-//    if(get_pedestal(pedestal_Avg,nmbr_Windows_Ped, regptr_0) == XST_SUCCESS) printf("Pedestal pass! pedestal_Avg= %d,nmbrWindows_Ped = %d, \r\n", pedestal_Avg, nmbr_Windows_Ped);
-//    int window,channel,sample;
-//    for(window = 0; window< 1; window++ ){
-//    	for(channel = 0; channel< 32; channel++ ){
-//    		for(sample = 0; sample< 32; sample++ ){
-//    			//pedestal_0[window][channel][sample] = 0;
-//    			printf("Channel = %u, %d\r\n",channel, pedestal_0[window][channel][sample]);
-//
-//    	}
-//    	}
-//  }
-
-    printf("Start while loop\r\n");
-
-	while (run_flag){
-		/* Simulate a infinity loop to trigger the watchdog  */
-		if(simul_err_watchdog_flag){
-			while(1);
-		}
-
-		/* Simulate a function which has a problem */
-		if(simul_err_function_prob_flag){
-			end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT | UDP, "Error function problem ask from user (simulation of function return error!)");
-			return -1;
-		}
-
-		/* Simulate a exception */
-		if(simul_err_exception_flag){
-			char* ptr = (char *)pcb_cmd;
-			for(int g=0; g<sizeof(struct udp_pcb); g++) ptr[g] = 0;
-			udp_send(pcb_cmd, buf_cmd);
-		}
-
-		/* Simulate a assertion */
-		if(simul_err_assertion_flag){
-			Xil_Assert(__FILE__, __LINE__);
-		}
-
-		/* If needed, update timefile */
-		if(flag_ttcps_timer){
-			update_timefile();
-			flag_ttcps_timer = false;
-		}
-
-		/* If needed, reload watchdog's counter */
-		if(flag_scu_timer){
-			XScuWdt_RestartWdt(&WdtScuInstance);
-			flag_scu_timer = false;
-		}
-
-		if(flag_axidma_error){
-			end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT | UDP, "AXI-DMA failed!");
-			return -1;
-		}
-		switch(state_main){
-			case IDLE:
-				if(stream_flag){
-				//	xil_printf("From IDLE to STREAM");
-
-					state_main = STREAM;
-				}
-				if(get_transfer_fct_flag && (!stream_flag) && empty_flag){
-					ControlRegisterWrite(CPUMODE_MASK,DISABLE, regptr_0);
-					state_main = GET_TRANSFER_FCT;
-				}
-				if(get_windows_flag && (!stream_flag) && empty_flag){
-					ControlRegisterWrite(CPUMODE_MASK,DISABLE, regptr_0);
-					state_main = GET_WINDOWS;
-				}
-				if(pedestal_flag && (!stream_flag) && empty_flag){
-					ControlRegisterWrite(CPUMODE_MASK,DISABLE, regptr_0);
-				//	ControlRegisterWrite(CPUMODE_MASK,DISABLE, regptr_1);
-					state_main = GET_PEDESTAL;
-				}
-				if(restart_flag){
-								ControlRegisterWrite(CPUMODE_MASK,DISABLE, regptr_0);
-				//				ControlRegisterWrite(CPUMODE_MASK,DISABLE, regptr_1);
-								printf("restarting at idle\r\n");
-								state_main = RESTART;
-							}
-				if(get_windows_raw_flag && (!stream_flag) && empty_flag){
-						ControlRegisterWrite(CPUMODE_MASK,DISABLE, regptr_0);
-				//		ControlRegisterWrite(CPUMODE_MASK,DISABLE, regptr_1);
-
-						state_main = GET_WINDOWS_RAW;
-					}
-				if(dividePedestalsFlag){
-					state_main = DIVIDE_PEDESTALS;
-					}
-				break;
-			case STREAM:
-				if((!stream_flag)){
-					usleep(100);
-		     		ControlRegisterWrite(SWRESET_MASK,DISABLE, regptr_0);
-					ControlRegisterWrite(SWRESET_MASK,ENABLE, regptr_0);
-				//	ControlRegisterWrite(SWRESET_MASK,DISABLE, regptr_1);
-				//	ControlRegisterWrite(SWRESET_MASK,ENABLE, regptr_1);
-					usleep(100);
-					state_main = IDLE;
-				}
-
-				ControlRegisterWrite(SMODE_MASK ,ENABLE, regptr_0); // mode for selecting the interrupt, 1 for dma
-				usleep(100);
-
-				ControlRegisterWrite(SS_TPG_MASK ,ENABLE, regptr_0); // 0 for test pattern mode, 1 for sample mode (normal mode)
-				usleep(100);
-
-				ControlRegisterWrite(CPUMODE_MASK,ENABLE, regptr_0); // mode trigger, 0 for usermode (cpu mode), 1 for trigger mode
-
-				usleep(100);
-
-		//		ControlRegisterWrite(SMODE_MASK ,ENABLE, regptr_1); // mode for selecting the interrupt, 1 for dma
-		//		usleep(100);
-
-		//		ControlRegisterWrite(SS_TPG_MASK ,ENABLE, regptr_1); // 0 for test pattern mode, 1 for sample mode (normal mode)
-		//		usleep(100);
-
-		//		ControlRegisterWrite(CPUMODE_MASK,ENABLE, regptr_1); // mode trigger, 0 for usermode (cpu mode), 1 for trigger mode
-
-		//		usleep(100);
-
-				xil_printf("flag_axidma_rx_done= %d \r\n",flag_axidma_rx_done);
-				usleep(100);
-
-
-
-				// setup inbound and outbound circular waveform/packet buffers
-				memset((void *) (&inboundRingManager), 0, sizeof(inboundRingManager));
-				inboundRingManager.writePointer        = DDR_incoming_waveform_ring_buffer;
-				inboundRingManager.procPointer         = inboundRingManager.writePointer;
-				inboundRingManager.firstAllowedPointer = inboundRingManager.writePointer;
-				inboundRingManager.lastAllowedPointer  = inboundRingManager.writePointer + (INBOUND_RING_BUFFER_LENGTH_IN_PACKETS - 1);
-				PrintInboundRingStatus(inboundRingManager);
-
-				printf("after inboundRingManager init \r\n");
-				usleep(100);
-				clearInboundBuffer();
-				usleep(100);
-				// INIT PEDESTALS
-
-			///	PrintInboundRingStatus(inboundRingManager);
-				usleep(100);
-
-
-				XAxiDma_SimpleTransfer_hm((UINTPTR)inboundRingManager.writePointer , SIZE_DATA_ARRAY_BYT);
-			     usleep(100);
-			     triggerMode(ENABLE);
-			     //ControlRegisterWrite(WINDOW_MASK,ENABLE, regptr_0); //  register for starting the round buffer in trigger mode
-//				 ControlRegisterWrite(WINDOW_MASK,ENABLE, regptr_1); //  register for starting the round buffer in trigger mode
-
-				 Xil_DCacheInvalidateRange((UINTPTR)inboundRingManager.writePointer , SIZE_DATA_ARRAY_BYT);
-					usleep(100);
-			     xil_printf(" pendingCountBefore: %d \r\n",inboundRingManager.pendingCount);
-			     usleep(100);
-				printf("after inboundRingManager print, starting while loop \r\n");
-				 usleep(100);
-                 int i = 0;
-                 int trigger_freq=10000;
-                 bool trigger_flag;
-			//	 XTime_GetTime(&tStart);
-				 while(stream_flag) {
-						if(inboundRingManager.pendingCount > 0) {
-							if (pedestalTriggerModeFlag == true) {
-                            pedestal_triggerMode_getArrays(&(inboundRingManager));
-							}
-							if (pedestalTriggerModeFlag != true) {
-								udp_transfer_WM( &(inboundRingManager));
-							}
-
-							Xil_DCacheInvalidateRange((UINTPTR)inboundRingManager.writePointer , SIZE_DATA_ARRAY_BYT);
-						     updateInboundCircBuffer();
-
-						//     Xil_DCacheInvalidateRange((UINTPTR)inboundRingManager.writePointer , SIZE_DATA_ARRAY_BYT);
-						//     ControlRegisterWrite(PSBUSY_MASK,DISABLE);
-
-							/* Wait on DMA transfer to be done */
-					//	timeout = 200000;
-						}
-
-//							/* If needed, update timefile */
-//							if(flag_ttcps_timer){
-//								update_timefile();
-//								flag_ttcps_timer = false;
-//							}
-
-							/* If needed, reload watchdog's counter */
-							if(flag_scu_timer){
-								XScuWdt_RestartWdt(&WdtScuInstance);
-								flag_scu_timer = false;
-							}
-
-							/* The DMA had a problem */
-							if(flag_axidma_error){
-								printf("Error with DMA interrupt: TPG !\r\n");
-								return XST_FAILURE;
-
-					    	}
-//							printf("inboundRingManager.pendingCount %d \r\n", (uint16_t)(inboundRingManager.pendingCount));
-                            if (!trigger_flag){
-							if (i==trigger_freq){
-								PStrigger(ENABLE);
-								trigger_flag=1;
-								i=0;
-							}
-							else {
-								 i++;
-							}
-
-                            }
-
-						}
-
-
-
-				stream_flag= FALSE;
-			//	XTime_GetTime(&tEnd);
-				usleep(100);
-				printf("leaving trigger mode\r\n");
-			    xil_printf("p %d \r\n", (uint16_t)(inboundRingManager.processedCount));
-				PrintInboundRingStatus(inboundRingManager);
-			//	printf("Time1 %lld, Time2 %lld, Diff %lld \r\n", tStart, tEnd, tEnd-tStart);
-				state_main = IDLE;
-				clearInboundBuffer();
-
-				break;
-			case GET_TRANSFER_FCT:
-				if(send_data_transfer_fct(regptr_0) == XST_SUCCESS) printf("Recover data pass!\r\n");
-				else{
-					end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT | UDP, "Recover data failed!");
-					return -1;
-				}
-				get_transfer_fct_flag = false;
-				state_main = IDLE;
-				break;
-			case GET_WINDOWS:
-//				xil_printf("Getting windows\r\n");
-				if(PulseSweep(regptr_0) != XST_SUCCESS){// printf("Get a 15 windows pass!\r\n");
-				//else{
-					end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT | UDP, "Get a 15 windows failed!");
-				return -1;
-				}
-				get_windows_flag = false;
-				state_main = IDLE;
-				break;
-			case GET_WINDOWS_RAW:
-				xil_printf("NADA\r\n");
-				//if(get_windows_raw() != XST_SUCCESS){// printf("Get a 15 windows pass!\r\n");
-				//else{
-				//	end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT | UDP, "Get a 15 windows failed!");
-				//return -1;
-				//}
-				get_windows_flag = false;
-				state_main = IDLE;
-				break;
-			case GET_PEDESTAL:
-				if(get_pedestal(pedestalAvg,nmbrWindowsPed, regptr_0) == XST_SUCCESS) printf("Pedestal pass! pedestalAvg= %d,nmbrWindowsPed = %d, \r\n", pedestalAvg, nmbrWindowsPed);
-			//	if(get_pedestal(pedestalAvg,nmbrWindowsPed, regptr_1) == XST_SUCCESS) printf("Pedestal pass-2! pedestalAvg= %d,nmbrWindowsPed = %d, \r\n", pedestalAvg, nmbrWindowsPed);
-				else{
-					end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT | UDP, "Get pedestal failed!");
-					return -1;
-				}
-				pedestal_flag = false;
-				state_main = IDLE;
-				xil_printf("exiting pedestal mode\r\n");
-				break;
-			case DIVIDE_PEDESTALS:
-			    if(dividePedestalsFlag) {
-			     divideByAverageNumber();
-			     usleep(10);
-			     dividePedestalsFlag=false;
-
-			    printf("Restarting");
-			    }
-				break;
-			case RESTART:
-			    if(restart_flag) {
-				restart_flag = false;
-			    restart();
-
-			    printf("Restarting");
-			    }
-				break;
-			default:
-				state_main = IDLE;
-				break;
-		}
-	}
+	printf("Start while loop\r\n");
+	loop();
+	printf("Stop while loop\r\n");
 
 	/* Close and clear everything */
 	cleanup_interrupts(true);
@@ -565,36 +408,46 @@ int main()
 	return 0;
 }
 
-void updateInboundCircBuffer() {
+void updateInboundCircBuffer()
+{
 	disable_interrupts();
- //   xil_printf("inboundRingManager.pendingCount %d \r\n", (uint16_t)(inboundRingManager.pendingCount));
+	// xil_printf("inboundRingManager.pendingCount %d \r\n", (uint16_t)(inboundRingManager.pendingCount));
 	inboundRingManager.pendingCount--; // updated in interrupt handler, so have to be careful here
 	inboundRingManager.processedCount++;
 	// Reset circ buffer if out of bounds
-	if(inboundRingManager.procPointer < inboundRingManager.lastAllowedPointer) {
+	if (inboundRingManager.procPointer < inboundRingManager.lastAllowedPointer)
+	{
 		(inboundRingManager.procPointer)++;
 		(inboundRingManager.procLocation)++;
-	} else {
-		inboundRingManager.procPointer  = inboundRingManager.firstAllowedPointer;
+	}
+	else
+	{
+		inboundRingManager.procPointer = inboundRingManager.firstAllowedPointer;
 		inboundRingManager.procLocation = 0;
 	}
-  //  xil_printf("inboundRingManager.pendingCount %d \r\n", (uint16_t)(inboundRingManager.pendingCount));
-   // xil_printf("inboundRingManager.processedCount %d \r\n", (uint16_t)(inboundRingManager.processedCount));
-    enable_interrupts();
+	// xil_printf("inboundRingManager.pendingCount %d \r\n", (uint16_t)(inboundRingManager.pendingCount));
+	// xil_printf("inboundRingManager.processedCount %d \r\n", (uint16_t)(inboundRingManager.processedCount));
+	enable_interrupts();
+	// xil_printf("after_int_inboundRingManager.pendingCount %d \r\n", (uint16_t)(inboundRingManager.pendingCount));
 }
 
-
-void end_main(clean_state_en state, char* error_txt){
+void end_main(clean_state_en state, char *error_txt)
+{
 	char text[100];
 
 	sprintf((char *)text, "In main: %s", error_txt);
-	if(state & GLOBAL_VAR) cleanup_global_var();
-	if(state & INTERRUPT) cleanup_interrupts(false);
-	if(state & UDP) cleanup_udp();
-	if(state & LOG_FILE){
+	if (state & GLOBAL_VAR)
+		cleanup_global_var();
+	if (state & INTERRUPT)
+		cleanup_interrupts(false);
+	if (state & UDP)
+		cleanup_udp();
+	if (state & LOG_FILE)
+	{
 		log_event(text, strlen(text));
 	}
-	else xil_printf("%s\r\n", text);
+	else
+		xil_printf("%s\r\n", text);
 
 	xil_printf("-------END-------\r\n");
 	sleep(1); // to see the xil_printf
@@ -603,157 +456,180 @@ void end_main(clean_state_en state, char* error_txt){
 	main();
 }
 
-
-void restart(void){
-    printf("restarting");
+void restart(void)
+{
+	printf("restarting");
 	usleep(1);
 	end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT | UDP, "Restart!");
 	main();
-
 }
 
-void setupDACs(void){
+void setupDACs(void)
+{
 	//	/* Initialize the DAC (Vped, Comparator value) */
-		if(gpio_init() == XST_SUCCESS) xil_printf("DAC initialization pass!\r\n");
-		else{
-			end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC initialization failed!");
-		}
+	if (gpio_init() == XST_SUCCESS)
+		xil_printf("DAC initialization pass!\r\n");
+	else
+	{
+		end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC initialization failed!");
+	}
 
-		if(set_DAC_CHANNEL(DAC_GRP_0,THRESHOLD_CMP_0) != XST_SUCCESS){
-			end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 0 voltage failed!");
-		}
-		if(set_DAC_CHANNEL(DAC_GRP_1,THRESHOLD_CMP_1) != XST_SUCCESS){
-			end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 1 voltage failed!");
-		}
-		if(set_DAC_CHANNEL(DAC_GRP_2,THRESHOLD_CMP_2) != XST_SUCCESS){
-			end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 2 voltage failed!");
-		}
-		if(set_DAC_CHANNEL(DAC_GRP_3,THRESHOLD_CMP_3) != XST_SUCCESS){
-			end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 3 voltage failed!");
-		}
-		if(set_DAC_CHANNEL(DAC_GRP_4,THRESHOLD_CMP_4) != XST_SUCCESS){
-			end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 0 voltage failed!");
-		}
-		if(set_DAC_CHANNEL(DAC_GRP_5,THRESHOLD_CMP_5) != XST_SUCCESS){
-			end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 1 voltage failed!");
-
-		}
-		if(set_DAC_CHANNEL(DAC_GRP_6,THRESHOLD_CMP_6) != XST_SUCCESS){
-			end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 2 voltage failed!");
-
-		}
-		if(set_DAC_CHANNEL(DAC_GRP_7,THRESHOLD_CMP_7) != XST_SUCCESS){
-			end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 2 voltage failed!");
-
-		}
-	   usleep(30);
-		if(set_DAC_CHANNEL_8574(VPED_ANALOG) != XST_SUCCESS){
-		    end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting Vped voltage failed!");
-
-		}
+	if (set_DAC_CHANNEL(DAC_GRP_0, THRESHOLD_CMP_0) != XST_SUCCESS)
+	{
+		end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 0 voltage failed!");
+	}
+	if (set_DAC_CHANNEL(DAC_GRP_1, THRESHOLD_CMP_1) != XST_SUCCESS)
+	{
+		end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 1 voltage failed!");
+	}
+	if (set_DAC_CHANNEL(DAC_GRP_2, THRESHOLD_CMP_2) != XST_SUCCESS)
+	{
+		end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 2 voltage failed!");
+	}
+	if (set_DAC_CHANNEL(DAC_GRP_3, THRESHOLD_CMP_3) != XST_SUCCESS)
+	{
+		end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 3 voltage failed!");
+	}
+	if (set_DAC_CHANNEL(DAC_GRP_4, THRESHOLD_CMP_4) != XST_SUCCESS)
+	{
+		end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 0 voltage failed!");
+	}
+	if (set_DAC_CHANNEL(DAC_GRP_5, THRESHOLD_CMP_5) != XST_SUCCESS)
+	{
+		end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 1 voltage failed!");
+	}
+	if (set_DAC_CHANNEL(DAC_GRP_6, THRESHOLD_CMP_6) != XST_SUCCESS)
+	{
+		end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 2 voltage failed!");
+	}
+	if (set_DAC_CHANNEL(DAC_GRP_7, THRESHOLD_CMP_7) != XST_SUCCESS)
+	{
+		end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting group threshold PMT 2 voltage failed!");
+	}
+	usleep(30);
+	if (set_DAC_CHANNEL_8574(VPED_ANALOG) != XST_SUCCESS)
+	{
+		end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "DAC: setting Vped voltage failed!");
+	}
 }
-		void testPattern(int* regptr){
-//			 Test pattern
-			if(test_TPG(regptr) == XST_SUCCESS) printf("TestPattern Generator pass!\r\n");
-			else{
-				end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT | UDP, "TestPattern Generator failed!");
-			}
-		    sleep(5);
-		}
+void testPattern(int *regptr)
+{
+	//			 Test pattern
+	if (test_TPG(regptr) == XST_SUCCESS)
+		printf("TestPattern Generator pass!\r\n");
+	else
+	{
+		end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT | UDP, "TestPattern Generator failed!");
+	}
+	sleep(5);
+}
 
-		void SDcardAndFiles(void){
-			/* Mount SD Card and create log file */
-				FRESULT result = mount_sd_card();
-				if (result == FR_OK) xil_printf("Mounting SD card pass!\r\n");
-				else{
-					end_main(GLOBAL_VAR, "Mounting SD card failed!");
-				}
-				/* Create log file */
-				if(create_logfile() == FR_OK) xil_printf("Log file creation pass!\r\n");
-				else{
-					end_main(GLOBAL_VAR, "Log file creation failed!");
-				}
+void SDcardAndFiles(void)
+{
+	/* Mount SD Card and create log file */
+	FRESULT result = mount_sd_card();
+	if (result == FR_OK)
+		xil_printf("Mounting SD card pass!\r\n");
+	else
+	{
+		end_main(GLOBAL_VAR, "Mounting SD card failed!");
+	}
+	/* Create log file */
+	if (create_logfile() == FR_OK)
+		xil_printf("Log file creation pass!\r\n");
+	else
+	{
+		end_main(GLOBAL_VAR, "Log file creation failed!");
+	}
 
-				/* Create time file */
-				if(create_timefile() == FR_OK) xil_printf("Time file creation pass!\r\n");
-				else{
-					end_main(GLOBAL_VAR, "Time file creation failed!");
-				}
+	/* Create time file */
+	if (create_timefile() == FR_OK)
+		xil_printf("Time file creation pass!\r\n");
+	else
+	{
+		end_main(GLOBAL_VAR, "Time file creation failed!");
+	}
 
-				/* Initialize the devices timer, axidma, ... */
-				if(devices_initialization() == XST_SUCCESS) xil_printf("Devices initialization pass!\r\n");
-				else{
-					end_main(GLOBAL_VAR | LOG_FILE, "Devices initialization failed!");
-				}
-		}
+	/* Initialize the devices timer, axidma, ... */
+	if (devices_initialization() == XST_SUCCESS)
+		xil_printf("Devices initialization pass!\r\n");
+	else
+	{
+		end_main(GLOBAL_VAR | LOG_FILE, "Devices initialization failed!");
+	}
+}
 
-		void networkInterface(void){
-			/* Initialize "echo_netif" to avoid warnings with function "xemac_add" */
-			echo_netif = &server_netif;
-			ip_addr_t ipaddr, netmask, gw;
-			/* Add network interface to the netif_list, and set it as default */
+void networkInterface(void)
+{
+	/* Initialize "echo_netif" to avoid warnings with function "xemac_add" */
+	echo_netif = &server_netif;
+	ip_addr_t ipaddr, netmask, gw;
+	/* Add network interface to the netif_list, and set it as default */
 
-			/* the mac address of the board. this should be unique per board */
-			unsigned char mac_ethernet_address[] = { 0x00, 0x0a, 0x35, 0x00, 0x01, 0x02 };
-			ipaddr.addr = 0;
-			gw.addr = 0;
-			netmask.addr = 0;
-			if (!xemac_add(echo_netif, &ipaddr, &netmask, &gw, mac_ethernet_address, PLATFORM_EMAC_BASEADDR)) {
-				end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "Error adding N/W interface");
+	/* the mac address of the board. this should be unique per board */
+	unsigned char mac_ethernet_address[] = {0x00, 0x0a, 0x35, 0x00, 0x01, 0x02};
+	ipaddr.addr = 0;
+	gw.addr = 0;
+	netmask.addr = 0;
+	if (!xemac_add(echo_netif, &ipaddr, &netmask, &gw, mac_ethernet_address, PLATFORM_EMAC_BASEADDR))
+	{
+		end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "Error adding N/W interface");
+	}
 
-			}
+	/* specify that the network if is up */
+	netif_set_default(echo_netif);
+	netif_set_up(echo_netif);
 
-			/* specify that the network if is up */
-			netif_set_default(echo_netif);
-			netif_set_up(echo_netif);
+	/* initliaze IP addresses to be used */
+	IP4_ADDR(&(echo_netif->ip_addr), 192, 168, 1, 10);
+	IP4_ADDR(&(echo_netif->netmask), 255, 255, 255, 0);
+	IP4_ADDR(&(echo_netif->gw), 192, 168, 1, 1);
+	ipaddr.addr = echo_netif->ip_addr.addr;
+	gw.addr = echo_netif->gw.addr;
+	netmask.addr = echo_netif->netmask.addr;
+	print_ip_settings(&ipaddr, &netmask, &gw);
+}
+void setPCaddress(void)
+{
+	ip_addr_t pc_ipaddr;
+	/* Set the PC address */
+	IP4_ADDR(&pc_ipaddr, 192, 168, 1, 11);
+	print_ip("\r\nPC IP: ", &pc_ipaddr);
 
-			/* initliaze IP addresses to be used */
-			IP4_ADDR(&(echo_netif->ip_addr),  192, 168,   1, 10);
-			IP4_ADDR(&(echo_netif->netmask), 255, 255, 255,  0);
-			IP4_ADDR(&(echo_netif->gw),      192, 168,   1,  1);
-			ipaddr.addr = echo_netif->ip_addr.addr;
-			gw.addr = echo_netif->gw.addr;
-			netmask.addr = echo_netif->netmask.addr;
-			print_ip_settings(&ipaddr, &netmask, &gw);
-		}
-		void setPCaddress(void){
-			ip_addr_t pc_ipaddr;
-			/* Set the PC address */
-			IP4_ADDR(&pc_ipaddr, 192, 168, 1, 11);
-			print_ip("\r\nPC IP: ", &pc_ipaddr);
+	/* Set the UDP connections and callback for data and commands */
+	if (setup_udp_settings(pc_ipaddr) < 0)
+	{
+		end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "Error setting up the UDP interface");
+	}
+	else
+		xil_printf("UDP started @ port %d for data and @ port %d for commands\n\r", PORT_DATA, PORT_CMD);
+}
+void initPedestals(void)
+{
+	// Initialize pedestal
+	if (get_pedestal(50, 1, regptr_0) == XST_SUCCESS)
+		printf("Pedestal initialization pass!\r\n");
+	//	if(init_pedestals() == XST_SUCCESS) printf("Pedestal initialization pass!\r\n");
 
-			/* Set the UDP connections and callback for data and commands */
-			if(setup_udp_settings(pc_ipaddr) < 0){
-				end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT, "Error setting up the UDP interface");
-			}
-			else xil_printf("UDP started @ port %d for data and @ port %d for commands\n\r", PORT_DATA, PORT_CMD);
+	else
+	{
+		end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT | UDP, "Pedestal initialization failed!");
+	}
+}
 
-		}
-		void initPedestals(void){
-		// Initialize pedestal
-			if(get_pedestal(50, 1,regptr_0) == XST_SUCCESS) printf("Pedestal initialization pass!\r\n");
-		//	if(init_pedestals() == XST_SUCCESS) printf("Pedestal initialization pass!\r\n");
-
-			else{
-				end_main(GLOBAL_VAR | LOG_FILE | INTERRUPT | UDP, "Pedestal initialization failed!");
-			}
-
-		}
-
-
-
-		void initTARGETregisters(int* regptr){
-			ControlRegisterWrite((int)NULL,INIT, regptr);
-			// software reset PL side
-			ControlRegisterWrite(SWRESET_MASK,DISABLE, regptr);
-			// Reset TargetC's registers
-			ControlRegisterWrite(REGCLR_MASK,DISABLE, regptr);
-			usleep(100000);
-			ControlRegisterWrite(SWRESET_MASK,ENABLE, regptr);
-			usleep(1000);
-			ControlRegisterWrite(SS_TPG_MASK,ENABLE, regptr);
-			usleep(1000);
-		}
+void initTARGETregisters(int *regptr)
+{
+	ControlRegisterWrite((int)NULL, INIT, regptr);
+	// software reset PL side
+	ControlRegisterWrite(SWRESET_MASK, DISABLE, regptr);
+	// Reset TargetC's registers
+	ControlRegisterWrite(REGCLR_MASK, DISABLE, regptr);
+	usleep(100000);
+	ControlRegisterWrite(SWRESET_MASK, ENABLE, regptr);
+	usleep(1000);
+	ControlRegisterWrite(SS_TPG_MASK, ENABLE, regptr);
+	usleep(1000);
+}
 //		void transferFunctionInit(void){
 //
 //				/* Initialize transfer function coefficients */

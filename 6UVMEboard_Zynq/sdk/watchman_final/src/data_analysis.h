@@ -125,6 +125,9 @@ typedef struct data_axi_st {
 } data_axi;
 
 
+void print_out_data_axi(data_axi *writePointer );
+
+
 /**
  * @brief Union to access an element as an array, used to give the element's address to the DMA
  */

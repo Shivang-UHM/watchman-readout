@@ -344,6 +344,9 @@ multiplex_WdoNumber:	process(ClockBus.CLK125MHz,CtrlBus_IxSL.CPUMode )
                         when '1'=>
                          WriteEn_mult <=RDAD_WriteEn_trig ;
                          WdoNumber_mult <= RDAD_Data_trig; 
+                        when others =>
+                        WriteEn_mult <='0';
+                         WdoNumber_mult <= (others=>'0');
                     end case;
 	        end if;
 	        end if;

@@ -39,6 +39,17 @@ extern uint32_t  pedestal_0[512][32][32];
 extern uint32_t  pedestal_1[512][16][32];
 
 
+void print_out_data_axi(data_axi *writePointer ){
+	printf("\r\n<print_out_data_axi>\r\n");
+	for(int j=0; j<32; j++){
+		for(int i=0; i<32; i++){
+			printf("%d\t", (uint16_t)writePointer->data[j][i]);
+		}
+
+		printf("\r\n");
+	}
+	printf("</print_out_data_axi>\r\n");
+}
 
 /****************************************************************************/
 /**
@@ -193,7 +204,7 @@ void udp_transfer_WM( volatile InboundRingManager_t *data_to_send )
 //				xil_printf("\r\n w=%d\r\n",window);
 			//	xil_printf("%d,%d\r\n",window, window_order);
 
-				for(i=0; i<32; i++){
+				for(i=0; i<16; i++){
 					for(sample = 0; sample <32; sample++){
 						/* Pedestal subtraction */
 						data_tmp = (uint16_t)  (Data2send->data[i][sample]- pedestal_0[window][i][sample]+ offset_avoid_negative );
@@ -233,7 +244,55 @@ void udp_transfer_WM( volatile InboundRingManager_t *data_to_send )
 			//	xil_printf("PRINTINDEX %d\r\n", index);
 				transfer_data(frame_buf, index);
 			//	xil_printf("PRINT INDEX AFTER TRANSFER %d\r\n", index);
-			//	sleep(5);
+				usleep(1);
+				index = 0;
+								frame_buf[index++] = 0x55;
+								frame_buf[index++] = 0xAA;
+								frame_buf[index++] = (char)window;
+								frame_buf[index++] = (char)(window >> 8);
+
+				//				xil_printf("\r\n w=%d\r\n",window);
+							//	xil_printf("%d,%d\r\n",window, window_order);
+
+								for(i=16; i<32; i++){
+									for(sample = 0; sample <32; sample++){
+										/* Pedestal subtraction */
+										data_tmp = (uint16_t)  (Data2send->data[i][sample]- pedestal_0[window][i][sample]+ offset_avoid_negative );
+									//	data_tmp = (uint16_t)  (Data2send->data[channelToSend][sample]- pedestal_0[window][channelToSend][sample]+ offset_avoid_negative );
+				//						data_tmp = (uint16_t)  (pedestal_0[window][channelToSend][sample]);
+
+				//						data_tmp = (uint16_t)  (Data2send->data[15][sample]); //-  pedestal_A[window][15][sample]+ offset_avoid_negative);
+										frame_buf[index++] = (char)data_tmp;
+									    //xil_printf("int_number = %d\r\n ", (char)(int_number));
+
+										frame_buf[index++] = (char)(data_tmp >> 8);
+										//xil_printf("int_number >> 8 = %d\r\n", (char)((int_number >> 8)));
+									}
+								}
+				/*
+									for(sample = 0; sample <32; sample++){
+										 Pedestal subtraction
+										data_tmp = (uint16_t)  (Data2send->data_1[channelToSend][sample]- pedestal_1[window][channelToSend][sample]+ offset_avoid_negative);
+				//						data_tmp = (uint16_t)  (pedestal_1[window][channelToSend][sample]+ offset_avoid_negative);
+
+										//						data_tmp = (uint16_t)  (Data2send->data[15][sample]); //-  pedestal_A[window][15][sample]+ offset_avoid_negative);
+										frame_buf[index++] = (char)data_tmp;
+									    //xil_printf("int_number = %d\r\n ", (char)(int_number));
+
+										frame_buf[index++] = (char)(data_tmp >> 8);
+										//xil_printf("int_number >> 8 = %d\r\n", (char)((int_number >> 8)));
+									}
+				*/
+
+
+									//xil_printf("\r\n");
+								//}
+								//xil_printf("\r\n");
+								frame_buf[index++] = 0x33;
+							//    xil_printf("Test\r\n");
+								frame_buf[index++] = 0xCC;
+							//	xil_printf("PRINTINDEX %d\r\n", index);
+								transfer_data(frame_buf, index);
 				free(Data2send);
 //
 //				if (window==40){

@@ -74,23 +74,23 @@ end CPU_CONTROLLERV3;
 --Architecture
 architecture Behavioral of CPU_CONTROLLERV3 is
 
-	component BlockDelay is
-		generic(
-			NBR : integer := 16
-		);
-		Port (
-		nrst : 		in	STD_Logic;
-		nclr :		in	std_logic;
-		clk:		in std_logic;
+--	component BlockDelay is
+--		generic(
+--			NBR : integer := 16
+--		);
+--		Port (
+--		nrst : 		in	STD_Logic;
+--		nclr :		in	std_logic;
+--		clk:		in std_logic;
 
-		Scnt:		in	std_logic_vector(2 downto 0);
+--		Scnt:		in	std_logic_vector(2 downto 0);
 
-		D : 		in	std_logic;
-		Q:			out	std_logic
+--		D : 		in	std_logic;
+--		Q:			out	std_logic
 
-		);
+--		);
 
-	end component BlockDelay;
+--	end component BlockDelay;
 
 --	component TRIGGER_CONTROLLER is
 --		Generic(
@@ -107,67 +107,67 @@ architecture Behavioral of CPU_CONTROLLERV3 is
 --		);
 --	end component;
 
-	component aFifoV2 is
-    generic (
-        DATA_WIDTH :integer := 8;
-        ADDR_WIDTH :integer := 4
-    );
-    port (
-    	rst :		in std_logic;
-        -- Reading port.
-        Data_out    :out std_logic_vector (DATA_WIDTH-1 downto 0);
-        Empty_out   :out std_logic;
-        ReadEn_in   :in  std_logic;
-        RClk        :in  std_logic;
-        -- Writing port.
-        Data_in     :in  std_logic_vector (DATA_WIDTH-1 downto 0);
-        Full_out    :out std_logic;
-        WriteEn_in  :in  std_logic;
-        WClk        :in  std_logic
-    );
-	end component aFifoV2;
+--	component aFifoV2 is
+--    generic (
+--        DATA_WIDTH :integer := 8;
+--        ADDR_WIDTH :integer := 4
+--    );
+--    port (
+--    	rst :		in std_logic;
+--        -- Reading port.
+--        Data_out    :out std_logic_vector (DATA_WIDTH-1 downto 0);
+--        Empty_out   :out std_logic;
+--        ReadEn_in   :in  std_logic;
+--        RClk        :in  std_logic;
+--        -- Writing port.
+--        Data_in     :in  std_logic_vector (DATA_WIDTH-1 downto 0);
+--        Full_out    :out std_logic;
+--        WriteEn_in  :in  std_logic;
+--        WClk        :in  std_logic
+--    );
+--	end component aFifoV2;
 
-	component module_fifo_regs_no_flags is
-	  generic (
-	    g_WIDTH : natural := 32;
-	    g_DEPTH : integer := 32
-	    );
-	  port (
-	    i_rst_sync : in std_logic;
-	    i_clk      : in std_logic;
+--	component module_fifo_regs_no_flags is
+--	  generic (
+--	    g_WIDTH : natural := 32;
+--	    g_DEPTH : integer := 32
+--	    );
+--	  port (
+--	    i_rst_sync : in std_logic;
+--	    i_clk      : in std_logic;
 
-	    -- FIFO Write Interface
-	    i_wr_en   : in  std_logic;
-	    i_wr_data : in  std_logic_vector(g_WIDTH-1 downto 0);
-	    o_full    : out std_logic;
+--	    -- FIFO Write Interface
+--	    i_wr_en   : in  std_logic;
+--	    i_wr_data : in  std_logic_vector(g_WIDTH-1 downto 0);
+--	    o_full    : out std_logic;
 
-	    -- FIFO Read Interface
-	    i_rd_en   : in  std_logic;
-	    o_rd_data : out std_logic_vector(g_WIDTH-1 downto 0);
-	    o_empty   : out std_logic
-	    );
-	end component;
+--	    -- FIFO Read Interface
+--	    i_rd_en   : in  std_logic;
+--	    o_rd_data : out std_logic_vector(g_WIDTH-1 downto 0);
+--	    o_empty   : out std_logic
+--	    );
+--	end component;
 
-	component LookupTable_LE is
-		generic(
-			MIN_LE_TIME : integer := 3	-- All times are x4 ns so 2 is equal to 8ns = 12 samples before rise of trigger
-		);
-		Port (
-			Clk:		in 	std_logic;
-			SCnt:		in 	std_logic_vector(2 downto 0);
-			prevWdo :	out	std_logic
-		);
-	end component LookupTable_LE;
+--	component LookupTable_LE is
+--		generic(
+--			MIN_LE_TIME : integer := 3	-- All times are x4 ns so 2 is equal to 8ns = 12 samples before rise of trigger
+--		);
+--		Port (
+--			Clk:		in 	std_logic;
+--			SCnt:		in 	std_logic_vector(2 downto 0);
+--			prevWdo :	out	std_logic
+--		);
+--	end component LookupTable_LE;
 
-	component RisingEdge_DFlipFlop is
-	   port(
-	      Q : out std_logic;
-	      nQ: out std_logic;
-	      Clk :in std_logic;
-	      D :in  std_logic ;
-	      nrst : in std_logic
-	   );
-   end component RisingEdge_DFlipFlop;
+--	component RisingEdge_DFlipFlop is
+--	   port(
+--	      Q : out std_logic;
+--	      nQ: out std_logic;
+--	      Clk :in std_logic;
+--	      D :in  std_logic ;
+--	      nrst : in std_logic
+--	   );
+--   end component RisingEdge_DFlipFlop;
    COMPONENT dig_sto_fifo_9W_16D
      PORT (
        wr_clk : IN STD_LOGIC;
@@ -196,30 +196,30 @@ architecture Behavioral of CPU_CONTROLLERV3 is
 --   END COMPONENT;
    
    
-COMPONENT trig0_fifo_10W_16D
-     PORT (
-       wr_clk : IN STD_LOGIC;
-       rd_clk : IN STD_LOGIC;
-       din : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-       wr_en : IN STD_LOGIC;
-       rd_en : IN STD_LOGIC;
-       dout : OUT STD_LOGIC_VECTOR(9 DOWNTO 0);
-       full : OUT STD_LOGIC;
-       empty : OUT STD_LOGIC
-     );
-   END COMPONENT;
-  COMPONENT axi_trig_afifo_12W_32D
-     PORT (
-       wr_clk : IN STD_LOGIC;
-       rd_clk : IN STD_LOGIC;
-       din : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
-       wr_en : IN STD_LOGIC;
-       rd_en : IN STD_LOGIC;
-       dout : OUT STD_LOGIC_VECTOR(11 DOWNTO 0);
-       full : OUT STD_LOGIC;
-       empty : OUT STD_LOGIC
-     );
-   END COMPONENT;
+--COMPONENT trig0_fifo_10W_16D
+--     PORT (
+--       wr_clk : IN STD_LOGIC;
+--       rd_clk : IN STD_LOGIC;
+--       din : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+--       wr_en : IN STD_LOGIC;
+--       rd_en : IN STD_LOGIC;
+--       dout : OUT STD_LOGIC_VECTOR(9 DOWNTO 0);
+--       full : OUT STD_LOGIC;
+--       empty : OUT STD_LOGIC
+--     );
+--   END COMPONENT;
+--  COMPONENT axi_trig_afifo_12W_32D
+--     PORT (
+--       wr_clk : IN STD_LOGIC;
+--       rd_clk : IN STD_LOGIC;
+--       din : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+--       wr_en : IN STD_LOGIC;
+--       rd_en : IN STD_LOGIC;
+--       dout : OUT STD_LOGIC_VECTOR(11 DOWNTO 0);
+--       full : OUT STD_LOGIC;
+--       empty : OUT STD_LOGIC
+--     );
+--   END COMPONENT;
 	-- component LookupTable_TE is
 	-- 	generic(
 	-- 		MIN_TE_TIME : integer := 1
@@ -261,8 +261,8 @@ COMPONENT trig0_fifo_10W_16D
 	signal PrevAddr_intl : std_logic_vector(7 downto 0);
 	signal OldAddr_intl : std_logic_vector(7 downto 0);
 	--signal prev_OldAddr_intl : std_logic_vector(7 downto 0);
-	signal Trig_OldAddr_intl : std_logic_vector(7 downto 0);
-	signal Ctrl_OldAddr_intl : std_logic_vector(7 downto 0);
+--	signal Trig_OldAddr_intl : std_logic_vector(7 downto 0);
+--	signal Ctrl_OldAddr_intl : std_logic_vector(7 downto 0);
 
 --	signal cmdbus_intl : std_logic_vector(2 downto 0);
 --	signal cmdwdo_en_intl: std_logic_vector(NBRWINDOWS-1 downto 0);
@@ -285,8 +285,8 @@ COMPONENT trig0_fifo_10W_16D
 	signal Old_Wr_en : std_logic_vector(1 downto 0);
 	signal prevTrigger : std_logic;
 
-	signal TrigInfo_intl, TrigInfo_intl_dly, Old_TrigInfo : std_logic_vector(11 downto 0);
-	signal Last_intl, Trig_intl : std_logic;
+	signal TrigInfo_intl, TrigInfo_intl_dly, Old_TrigInfo : std_logic_vector(11 downto 0) :=(others => '0');
+	signal Last_intl, Trig_intl : std_logic ;
 	signal TriggerRegDly : std_logic_vector(1 downto 0);
 
 	signal validreal_s, validdata_s, valid_1dly : std_logic;
@@ -335,8 +335,8 @@ COMPONENT trig0_fifo_10W_16D
 	-- -------------------------------------------------------------
 	attribute DONT_TOUCH : string;
 
-	attribute DONT_TOUCH of Trig_OldAddr_intl : signal is "TRUE";
-	attribute DONT_TOUCH of Ctrl_OldAddr_intl : signal is "TRUE";
+--	attribute DONT_TOUCH of Trig_OldAddr_intl : signal is "TRUE";
+--	attribute DONT_TOUCH of Ctrl_OldAddr_intl : signal is "TRUE";
 	attribute mark_debug : string;
 	attribute mark_debug of ClockBus : signal is "TRUE";
 	attribute mark_debug of nRST : signal is "TRUE";

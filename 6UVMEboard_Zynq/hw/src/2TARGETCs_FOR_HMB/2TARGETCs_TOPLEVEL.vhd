@@ -1,7 +1,7 @@
 -------------------------------------------------------
 --! @file 	TARGETC_TOPLEVEL.vhd
 --!
---! @author	Jonathan Hendriks, Salvador Ventura
+--! @author	Jonathan Hendriks, Salvador Ventura, Shivang
 --! @date	January 2022
 --! @version 0.0
 -------------------------------------------------------
@@ -164,7 +164,7 @@ entity TwoTARGET_C_TopLevel_System is
 		FIFOvalid:			out std_logic;
 		FIFOdata:			out std_logic_vector(31 downto 0);
 		StreamReady:		in	std_logic;
-        NbrWindow:		    out std_logic_vector(31 downto 0);
+    --    NbrWindow:		    out std_logic_vector(31 downto 0);
         
 	-- TRIGGER FROM BOARD NOT NEEDED FOR HMB CALORIMETERS EXTERNAL TRIGGER WILL BE PROVIDED
 		-- Trigger
@@ -1024,7 +1024,7 @@ SyncBitCNT_CLR: SyncBit
     
     
     
-	NbrWindow	<= CtrlBusOut_intl.NBRWINDOW;
+	--NbrWindow	<= CtrlBusOut_intl.NBRWINDOW;
 	SW_nRST <= CtrlBusOut_intl.SW_nRST;
 
 	-- Interrupt Interface
